@@ -17,18 +17,18 @@ function App() {
   axios.get('https://reqres.in/api/users')
   .then(function (response) {
     fullUserList = fullUserList.concat(response.data.data);
-  });
-
-  axios.get('https://reqres.in/api/users?page=2')
-  .then(function (response) {
-    if(!isLogged) {
-      fullUserList = fullUserList.concat(response.data.data);
-      dispatch(getUsers(fullUserList));
-      dispatch(logIn());
-    }
+  }).then(() => {
+    axios.get('https://reqres.in/api/users?page=2')
+    .then(function (response) {
+      if(!isLogged) {
+        fullUserList = fullUserList.concat(response.data.data);
+        dispatch(getUsers(fullUserList));
+        dispatch(logIn());
+      }
+    })
+    .catch(function (error) {
+    });
   })
-  .catch(function (error) {
-  });
 
   return (
     <div className="App">
