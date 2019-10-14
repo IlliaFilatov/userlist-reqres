@@ -6,6 +6,19 @@ function UserList() {
   
   const users = useSelector(state => state.users);
   const dispatch = useDispatch();
+  
+  const editUser = (e) => {
+    let newName = prompt('Enter new name: ');
+    let newSurname = prompt('Enter new surname: ');
+    let userIndex = e.target.closest('.user').getAttribute('user-id');
+
+    if(newName !== null && newName.length !== 0) {
+      dispatch(editName(newName, userIndex));
+    }
+    if(newSurname !== null && newSurname.length !== 0) {
+      dispatch(editSurname(newSurname, userIndex));
+    }
+  }
 
   return (
     <div>
@@ -20,20 +33,7 @@ function UserList() {
               <span>{el.last_name} </span>
             </p>
             <button className="user__edit" onClick=
-              {
-                (e) => {
-                  let newName = prompt('Enter new name: ');
-                  let newSurname = prompt('Enter new surname: ');
-                  let userIndex = e.target.closest('.user').getAttribute('user-id');
-
-                  if(newName !== null && newName.length !== 0) {
-                    dispatch(editName(newName, userIndex));
-                  }
-                  if(newSurname !== null && newSurname.length !== 0) {
-                    dispatch(editSurname(newSurname, userIndex));
-                  }
-                }
-              }>Edit</button>
+              {(e) => editUser(e)}>Edit</button>
             <button className="user__remove" onClick={() => dispatch(removeUser(index))}>&#215;</button>
           </div>
         )
